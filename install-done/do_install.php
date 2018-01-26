@@ -39,7 +39,7 @@ if (isset($_POST)) {
 
     //all input seems to be ok. check required fiels
     if (!is_file('database.sql')) {
-        echo json_encode(array("success" => false, "message" => "The database.sql file could not found in install folder!"));
+        echo json_encode(array("success" => false, "message" => "The database.sql file could not found in install-done folder!"));
         exit();
     }
 

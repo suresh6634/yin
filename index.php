@@ -67,7 +67,7 @@ if (ENVIRONMENT === 'pre_installation') {
         $domain = 'http://' . $domain;
     }
 
-    header("Location: $domain./install/index.php");
+    header("Location: $domain./install-done/index.php");
     exit;
 }
 

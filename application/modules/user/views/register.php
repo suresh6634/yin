@@ -6,7 +6,7 @@
 	<body class="hold-transition register-page">
     <div class="register-box">
       <div class="register-logo">
-        <a href="<?php echo base_url(); ?>"><b>User Login and Management</b></a>
+        <a href="<?php echo base_url(); ?>"><img src="<?php echo base_url();?>/assets/images/logo.png" alt="YIN Logo"></a>
       </div>
       <div class="register-box-body">
         <p class="login-box-msg">Register a new membership</p>

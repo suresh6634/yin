@@ -12,12 +12,24 @@ class User extends CI_Controller {
       * This function is redirect to users profile page
       * @return Void
       */
-    public function index() {
-    	if(is_login()){
-    		redirect( base_url().'user/profile', 'refresh');
-    	} 
-    }
 
+    public function index() {
+        if(is_login()){
+            $this->load->view("include/header");
+            $this->load->view("yin");
+            $this->load->view("include/footer");
+        } else {
+            redirect( base_url().'user/login', 'refresh');
+        }
+    }
+/*
+    public function index() {
+        if(is_login()){
+            //redirect( base_url().'user/profile', 'refresh');
+            redirect( base_url().'user/yin', 'refresh');
+        }
+    }
+*/
     /**
       * This function is used to load login view page
       * @return Void
@@ -80,7 +92,8 @@ class User extends CI_Controller {
 			} else {
 				$this->session->set_userdata('user_details',$return);
 			}
-            redirect( base_url().'user/profile', 'refresh');
+            //redirect( base_url().'user/profile', 'refresh');
+            redirect( base_url().'yin', 'refresh');
         }
     }
 
