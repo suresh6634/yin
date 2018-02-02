@@ -26,7 +26,7 @@ class Ipinfo {
      * @param string $version - The version of the API we are working with
      *
      */
-    function __construct($apiKey, $format = 'raw', $version = 'v3')
+    function __construct($apiKey = '5c6da81ac3fd7dfa4bee16914fb36183f030b6ae30c4bfd54eb34a1d5dd7aeeb', $format = 'raw', $version = 'v3')
     {
         // Save the API key
         $this->apiKey = $apiKey;

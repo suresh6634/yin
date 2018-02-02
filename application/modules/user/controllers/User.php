@@ -93,7 +93,7 @@ class User extends CI_Controller {
 				$this->session->set_userdata('user_details',$return);
 			}
             //redirect( base_url().'user/profile', 'refresh');
-            redirect( base_url().'yin', 'refresh');
+            redirect( base_url(), 'refresh');
         }
     }
 
@@ -331,7 +331,7 @@ class User extends CI_Controller {
             $newname = $this->input->post('fileOld');
             $profile_pic =$newname;
         } else {
-            $data[$name]='';
+            $data["name"]='';
             $profile_pic ='user.png';
         }
         foreach($_FILES as $name => $fileInfo)

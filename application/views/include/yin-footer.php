@@ -1,5 +1,5 @@
         <!-- footer container starts here -->
-        <div class="container" style="width:600px;margin: 20px auto;">
+        <div class="container bg-white" style="width:600px;margin: 20px auto;">
             <div class="row align-items-center">
                 <div class="col-12 col-sm-12 col-md-4 ml-auto">
                    Copyright &copy; <?php echo date('Y'); ?> YIN
@@ -8,6 +8,9 @@
                     <ul class="nav justify-content-end">
                         <li class="nav-item align-top">
                             <a class="nav-link active" href="#">About</a>
+                        </li>
+                        <li class="nav-item align-top">
+                            <a class="nav-link active" href="#">Privacy</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#">Feedback</a>
