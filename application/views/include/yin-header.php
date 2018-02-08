@@ -19,6 +19,7 @@
         <!-- jQuery UI 1.11.4 -->
         <script src="<?php echo base_url('assets/js/jquery-ui.min.js'); ?>"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+        <script src="https://cdn.ckeditor.com/ckeditor5/1.0.0-alpha.2/classic/ckeditor.js"></script>
         <style type="text/css">
             body {
                 background-color: #d2d6de;
@@ -121,22 +122,36 @@
                 background-color: #EEE;
                 cursor: not-allowed !important;
             }
+            .ck-editor__editable {
+                min-height: 300px;
+                /*background: url("<?php echo base_url('assets/images/textarea-bg-line.png');?>") repeat;*/
+                font-size:14px;
+                line-height:1em;
+                padding-top: 10px;
+            }
         </style>
         <script>
+           // ClassicEditor.create( document.querySelector( '#pixelComment' ) );
             /* Send DayScore as soon as the score is clicked */
+
+
             function addDayScore ( selectedPixel ) {
 
                 var dayScore = selectedPixel.attr("data-dayscore");
-                var hasRecord = selectedPixel.attr("data-hasRecord");
+                var hasRecord = selectedPixel.attr("data-hasrecord");
                 var mode;
+                console.log(hasRecord);
                 if ( hasRecord == 0 )
                 {
                     mode = "insert";
+
                 } else if ( hasRecord == 1 ) {
                     mode = "update";
+
                 }
-                var formData = $("#modalDayScoreForm").serialize()+"&mode="+mode;
-                //console.log( formData );
+                var commentForTheDay = pixelCommentEditor.getData();
+                var formData = $("#modalDayScoreForm").serialize()+"&mode="+mode+"&commentForTheDay="+commentForTheDay;
+                console.log( formData );
                 //console.log ( selectedPixel.attr("data-fulldate") );
 
                 $.post( "<?php echo base_url().'yin/insertOrUpdateDayScore'; ?>", formData, function( data ) {
@@ -146,21 +161,88 @@
 
             }
 
+            function isOrWas ( thisDate ) {
+                var today = new Date();
+                var dd = today.getDate();
+                var mm = today.getMonth()+1; //January is 0!
+
+                var yyyy = today.getFullYear();
+                if(dd<10){
+                    dd='0'+dd;
+                }
+                if(mm<10){
+                    mm='0'+mm;
+                }
+                var today = yyyy+mm+dd;
+                //console.log ( thisDate + ' ' + today );
+                if ( thisDate == today ) {
+                    $("#spanIsOrWas").html( "is" );
+                } else {
+                    $("#spanIsOrWas").html( "was" );
+                }
+            }
+
 
             $( document ).ready(function() {
                 var selectedDate;
+
                 $( ".datePixel" ).on ("click", function() {
-                    //console.log ($(this).attr("data-datepixel"));
-                    var thisDate = $(this).attr("data-fullDate");
-                    selectedDate = $(this).attr("data-datepixel");
-                    var dayScore = $(this).attr("data-dayscore");
+
+                    /*//console.log ($(this).attr("data-datepixel"));
+                    var thisPixel = $(this);
+                    var thisDate = thisPixel.attr("data-fullDate");
+
+                    selectedDate = thisPixel.attr("data-datepixel");
+                    var formData = "date="+selectedDate;
+
+                    $.post( "<?php echo base_url().'yin/selectedPixelData'; ?>", formData, function( data ) {
+                        var pixel = jQuery.parseJSON( data );
+                        if ( data.ok == 1 ) {
+                            console.log(pixel);
+                            thisPixel.attr("data-dayscore", pixel.data.date);
+                            var dayScore = pixel.data.dayscore_id;
+                            $("#ScoreForTheDay").val(pixel.data.dayscore_id);
+                            $("#pixelComment").html(pixel.data.comment);
+                            if (dayScore != "" && dayScore > 0) {
+                                $(".dayscore").hide();
+                                $(".dayscore[data-dayscore='" + dayScore + "']").attr("data-selected", 1).addClass("de-select").show();
+                                $("#dayscore-comments").show();
+                                $(".scoreForTheDay").html($(".dayscore[data-dayscore='" + dayScore + "']").attr("data-mood"));
+                            }
+                        }
+                        $("#modal-date-title").html(thisDate);
+                        $("#selectedDate").val(selectedDate);
+                        console.log($("#selectedDate").val());
+                        $('.pixelDateModal').modal('show');
+                        $(".dayscore-block").show();
+                    });*/
+                    var thisPixel = $(this);
+                    selectedDate = thisPixel.attr("data-datepixel");
+                    isOrWas(selectedDate);
+                    var formData = "date="+selectedDate;
+
+                    console.log(formData);
+
+                    $.post( "<?php echo base_url().'yin/selectedPixelData'; ?>", formData, function( data ) {
+                        var pixel = jQuery.parseJSON( data );
+                        if ( pixel.ok == 1 ) {
+                            //console.log(pixel);
+                            //console.log(pixel.data.comment);
+                            thisPixel.attr("data-dayscore", pixel.data.date);
+                            //$("#pixelComment").val(pixel.data.comment);
+                            pixelCommentEditor.setData(pixel.data.comment);
+
+                        }
+                    });
+                    var thisDate = thisPixel.attr("data-fullDate");
+                    var dayScore = thisPixel.attr("data-dayscore");
                     if (dayScore != "" && dayScore > 0) {
                         $(".dayscore").hide();
                         $( ".dayscore[data-dayscore='"+dayScore+"']" ).attr( "data-selected", 1 ).addClass( "de-select" ).show();
                         $( "#dayscore-comments" ).show();
                         $(".scoreForTheDay").html( $( ".dayscore[data-dayscore='"+dayScore+"']" ).attr( "data-mood" ) );
+                        $("#ScoreForTheDay").val(dayScore);
                     }
-
                     $( "#modal-date-title" ).html(thisDate);
                     $( "#selectedDate" ).val(selectedDate);
                     $( '.pixelDateModal' ).modal('show');
@@ -174,8 +256,8 @@
                     if (isSelected == 1) {
                         $(this).attr( "data-selected", 0 );
                         $(this).removeClass( "de-select" );
-                        $(this).siblings().slideDown( 300, "easeOutCirc" );
-                        $("#dayscore-comments").slideUp( 300, "easeInCirc" );
+                        $(this).siblings().slideDown( 200, "easeOutCirc" );
+                        $("#dayscore-comments").slideUp( 200, "easeInCirc" );
                         $("."+selectedDate).removeClass( "_"+dayScore ).html("").attr("data-dayscore", 0);
                         $("#ScoreForTheDay").val("");
                     } else if (isSelected == 0) {
@@ -183,21 +265,27 @@
                         $(this).siblings( "data-selected", 0 );
                         $(this).attr( "data-selected", 1 );
                         //$( ".dayscore-block" ).slideUp( 400,  );
-                        $(this).siblings().slideUp( 300, "easeInCirc" );
-                        $("#dayscore-comments").slideDown( 300, "easeOutCirc" );
+                        $(this).siblings().slideUp( 200, "easeInCirc" );
+                        $("#dayscore-comments").slideDown( 200, "easeOutCirc" );
                         $(this).addClass( "de-select" );
                         $("."+selectedDate).addClass( "_"+dayScore ).html(dayScore).attr("data-dayscore", dayScore);
                         $("#ScoreForTheDay").val(dayScore);
                     }
-                    addDayScore( $("."+selectedDate) );
+                    //addDayScore( $("."+selectedDate) );
                 });
 
                 $('.pixelDateModal').on('hidden.bs.modal', function () {
                     $( ".dayscore" ).attr("style", "display:block").removeClass("de-select");
                     $( "#dayscore-comments" ).hide();
+                    //addDayScore( $("."+selectedDate) );
+                    pixelCommentEditor.setData("");
                 });
 
-
+                $("#btnAddComments").on("click", function(){
+                    $('.pixelDateModal').modal('hide');
+                    addDayScore( $("."+selectedDate) );
+                    pixelCommentEditor.setData("");
+                });
             });
         </script>
     </head>

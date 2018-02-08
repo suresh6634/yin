@@ -32,10 +32,11 @@ class Yin extends CI_Controller {
         $this->load->view("include/yin-header");
         //$data["user_details"] = $this->session->userdata;
         $data['pixels'] = $this->Yin_model->getYin($id);
-        //$this->session->set_userdata('some_name', 'some_value');
+        $this->session->set_userdata('pixels', $this->Yin_model->getYin($id));
         $this->load->view("index", $data);
         $this->load->view("include/yin-footer");
     }
+
     public function insertOrUpdateDayScore(){
         is_login();
         $year = 2018;
@@ -45,5 +46,22 @@ class Yin extends CI_Controller {
         $data["result"] = $this->Yin_model->insertOrUpdateDayscoreModel($user_id, 2018);
         echo json_encode($data);
     }
+
+    public function selectedPixelData(){
+        is_login();
+        $date = $this->input->post('date');
+        if(!isset($id) || $id == '') {
+            $user_id = $this->session->userdata ('user_details')[0]->users_id;
+        }
+
+        $data["ok"] = 0;
+        if ($user_id == $_SESSION["pixels"]["user_id"] && isset($_SESSION["pixels"]["pixel"][$date]))
+        {
+            $data["ok"] = 1;
+            $data["data"] = $_SESSION["pixels"]["pixel"][$date];
+        }
+        echo json_encode($data);
+    }
+
 }
 ?>

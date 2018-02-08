@@ -2,7 +2,8 @@
         <!--<pre>
             <?php
 /*                //print_r($ipinfo);
-                print_r($pixels);
+                //print_r($pixels);
+                print_r( $_SESSION['pixels']);
             */?>
         </pre>-->
         <div class="clearfix"></div>
@@ -15,7 +16,7 @@
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="pixelDateModalTitle">How is/was <span id="modal-date-title" class="strong"></span>?</h5>
+                                <h5 class="modal-title" id="pixelDateModalTitle">How <span id="spanIsOrWas"></span> <span id="modal-date-title" class="strong"></span>?</h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
@@ -42,7 +43,25 @@
                                                 <h3>What made you feel &quot;<span class="scoreForTheDay"></span>&quot;?</h3>
                                             </div>
                                             <div class="col-md-12 col-sm-12 ml-auto">
-                                                <textarea name="commentForTheDay" style="width:100%;height:182px;padding:0 10px;resize:none;line-height:30px;font-size:16px;" class="bg-line"></textarea>
+                                                <textarea style="width:100%;height:182px;padding:0 10px;resize:none;line-height:30px;font-size:16px;" id="pixelComment" class="bg-line"></textarea>
+                                                <script>
+                                                   /* ClassicEditor
+                                                        .create( document.querySelector( '#pixelComment' ) )
+                                                        .catch( error => {
+                                                        console.error( error );
+                                                    } );*/
+
+                                                    ClassicEditor
+                                                        .create( document.querySelector( '#pixelComment' ) )
+                                                        .then( editor => {
+                                                            //console.log( 'Editor was initialized', editor );
+                                                            pixelCommentEditor = editor;
+                                                        } )
+                                                        .catch( err => {
+                                                            console.error( err.stack );
+                                                        } );
+
+                                                </script>
                                             </div>
                                         </div>
                                         <!-- Comments end here -->
@@ -69,7 +88,7 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-primary">Add comments</button>
+                                <button type="button" class="btn btn-primary" id="btnAddComments">Add comments</button>
                             </div>
                         </div>
                     </div>
@@ -115,6 +134,7 @@
                                 $columnPixel = ($datePixel < 10 ? '0'.$datePixel : $datePixel );
                                 $rowPixel = ($maxDaysinAMonth < 10 ? '0'.$maxDaysinAMonth : $maxDaysinAMonth );
                                 $chosenClass = "datePixel";
+                                $thisPixel = $selectedYear.$columnPixel.$rowPixel;
 
 
                                 $pixelDay    = strtotime($selectedYear."-".$datePixel."-".$maxDaysinAMonth);
@@ -139,12 +159,18 @@
                                 } else {
                                     $fullDate = date( "l, d F Y", strtotime( $selectedYear.$columnPixel.$rowPixel ) );
                                 }
+                                $hasRecord = 0;
+                                $dayScoreClass = "";
+                                $dayScore = "-1";
+                                if(isset($pixels["pixel"][$thisPixel])) {
+                                    $hasRecord = 1;
+                                    $dayScoreClass = "_".$pixels["pixel"][$thisPixel]["dayscore_id"];
+                                    $dayScore = $pixels["pixel"][$thisPixel]["dayscore_id"];
+                                }
 
-                                //$fullDate = date( "l, d F Y", strtotime( date("Y").$columnPixel.$rowPixel ) );
-                                //$datePixel = date("Y").$columnPixel.$rowPixel;
                                 ?>
 
-                                <td class="<?php echo $selectedYear.$columnPixel.$rowPixel." ".$chosenClass; ?>" data-datePixel="<?php echo $selectedYear.$columnPixel.$rowPixel; ?>" data-dayscore="-1" data-hasRecord="0" data-fullDate="<?php echo $fullDate; ?>"></td>
+                                <td class="<?php echo $thisPixel." ".$chosenClass." ".$dayScoreClass; ?>" data-datePixel="<?php echo $selectedYear.$columnPixel.$rowPixel; ?>" data-dayscore="<?php echo $dayScore; ?>" data-hasRecord="<?php echo $hasRecord; ?>" data-fullDate="<?php echo $fullDate; ?>"><?php echo ($dayScore > 0 ? $dayScore : ""); ?></td>
 
                                 <?php
                             }

@@ -95,3 +95,9 @@ defined('HOST')                OR define('HOST', ''); //host
 defined('PORT')                OR define('PORT', ''); //port
 defined('SMTP_SECURE')         OR define('SMTP_SECURE', '');//SMTPSecure
 defined('SMTP_PASSWORD')       OR define('SMTP_PASSWORD', '');//password
+
+/**
+ * SALT KEY
+**/
+
+defined('SALTKEY')          OR define('SALTKEY', '11bf909489080345aa98349315be9f3f'); //user name
