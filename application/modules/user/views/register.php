@@ -6,12 +6,14 @@
 	<body class="hold-transition register-page">
     <div class="register-box">
       <div class="register-logo">
-        <a href="<?php echo base_url(); ?>"><img src="<?php echo base_url();?>/assets/images/logo.png" alt="YIN Logo"></a>
+          <a href="<?php echo base_url(); ?>" class="logo">
+              <span class="logo-lg"><img src="<?php echo base_url().'assets/images/logo.png' ?>" id="logo" alt="YIN Logo"></span>
+          </a>
       </div>
       <div class="register-box-body">
-        <p class="login-box-msg">Register a new membership</p>
+        <p class="login-box-msg">Sign up</p>
         <?php if($this->session->flashdata("messagePr")){?>
-          <div class="alert alert-info">      
+          <div class="alert alert-info" style="background-color: #f8d7da !important; color: #721c24 !important; border-color: #f5c6cb !important;">
             <?php echo $this->session->flashdata("messagePr")?>
           </div>
         <?php } ?>
@@ -35,55 +37,57 @@
             <input type="password" name="password" class="form-control" placeholder="Retype password" data-validation="confirmation">
             <span class="glyphicon glyphicon-log-in form-control-feedback"></span>
           </div>
-          <div class="form-group has-feedback">
-            <?php $type = json_decode(setting_all('user_type')); ?>
+          <!--<div class="form-group has-feedback">
+            <?php /*$type = json_decode(setting_all('user_type')); */?>
             <select name="user_type" id="" class="form-control">
-              <?php 
+              <?php /*
               foreach ($type as $key => $value) {
                 if($value != 'admin') {
-                  echo '<option value="'.$value.'">'.ucfirst($value).'</option>';            
+                  echo '<option value="'.$value.'">'.ucfirst($value).'</option>';
                 }
               }
-              ?>
+              */?>
             </select>
-            <!-- <input type="" name="password" class="form-control" placeholder="Retype password" data-validation="confirmation"> -->
             <span class="glyphicon glyphicon-random form-control-feedback"></span>
-          </div>
+          </div>-->
     	     <div class="row">
               <div class="col-xs-12">
                <!--  <input type="hidden" name="user_type" value="<?php //echo setting_all('user_type');?>"> -->
                 <input type="hidden" name="call_from" value="reg_page">
-                <button type="submit" name="submit" class="btn btn-primary btn-block btn-flat btn-color">Register</button>
+                <button type="submit" name="submit" class="btn btn-primary btn-block btn-flat btn-color">Sign up</button>
               </div>
             </div>
         </form>
     	  <br>
-        <a href="<?php echo base_url('user/login');?>" class="text-center">I already have a membership</a>
+        <a href="<?php echo base_url('user/login');?>" class="text-center">I already have an account </a>
       </div>
       <!-- /.form-box -->
     </div>
 <!-- /.register-box -->
+    <script>
+        $(document).ready(function(){
+            <?php if($this->input->get('invited') && $this->input->get('invited') != ''){ ?>
+            $burl = '<?php echo base_url() ?>';
+            $.ajax({
+                url: $burl+'user/chekInvitation',
+                method:'post',
+                data:{
+                    code: '<?php echo $this->input->get('invited'); ?>'
+                },
+                dataType: 'json'
+            }).done(function(data){
+                console.log(data);
+                if(data.result == 'success') {
+                    $('[name="email"]').val(data.email);
+                    $('form').attr('action', $burl + 'user/register_invited/' + data.users_id);
+                } else{
+                    window.location.href= $burl + 'user/login';
+                }
+            });
+            <?php } ?>
+        });
+    </script>
   </body>
-<script>
-$(document).ready(function(){
-  <?php if($this->input->get('invited') && $this->input->get('invited') != ''){ ?>
-    $burl = '<?php echo base_url() ?>';
-    $.ajax({
-      url: $burl+'user/chekInvitation',
-      method:'post',
-      data:{
-        code: '<?php echo $this->input->get('invited'); ?>'
-      },
-      dataType: 'json'
-    }).done(function(data){
-      console.log(data);
-      if(data.result == 'success') {
-        $('[name="email"]').val(data.email);
-        $('form').attr('action', $burl + 'user/register_invited/' + data.users_id);
-      } else{
-        window.location.href= $burl + 'user/login';
-      }
-    });
-  <?php } ?>
-});
-</script>
+</html>
+
+

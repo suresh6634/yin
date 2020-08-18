@@ -30,20 +30,26 @@ class Yin extends CI_Controller {
         //$data['ipinfo'] = $ipInfo->getCountry($userIP);
 
         $this->load->view("include/yin-header");
-        //$data["user_details"] = $this->session->userdata;
-        $data['pixels'] = $this->Yin_model->getYin($id);
-        $this->session->set_userdata('pixels', $this->Yin_model->getYin($id));
+        $data["user_details"] = $this->session->userdata;
+        $yin_year = $this->input->post('year');
+        if($yin_year == "")
+        {
+            $yin_year = date("Y");
+        }
+        $data['pixels'] = $this->Yin_model->getYin($id, $yin_year);
+
+        $this->session->set_userdata('pixels', $data['pixels']);
         $this->load->view("index", $data);
         $this->load->view("include/yin-footer");
     }
 
     public function insertOrUpdateDayScore(){
         is_login();
-        $year = 2018;
+        $year = $this->input->post('year');
         if(!isset($id) || $id == '') {
             $user_id = $this->session->userdata ('user_details')[0]->users_id;
         }
-        $data["result"] = $this->Yin_model->insertOrUpdateDayscoreModel($user_id, 2018);
+        $data["result"] = $this->Yin_model->insertOrUpdateDayscoreModel($user_id, $year);
         echo json_encode($data);
     }
 
@@ -53,7 +59,8 @@ class Yin extends CI_Controller {
         if(!isset($id) || $id == '') {
             $user_id = $this->session->userdata ('user_details')[0]->users_id;
         }
-
+        $data["user_id"] = $user_id;
+        $data["session"] = $_SESSION;
         $data["ok"] = 0;
         if ($user_id == $_SESSION["pixels"]["user_id"] && isset($_SESSION["pixels"]["pixel"][$date]))
         {
@@ -61,6 +68,33 @@ class Yin extends CI_Controller {
             $data["data"] = $_SESSION["pixels"]["pixel"][$date];
         }
         echo json_encode($data);
+    }
+
+    public function checkSession(){
+        $this->load->view("checkSession");
+    }
+
+    public function changeYear(){
+        is_login();
+        if(!isset($id) || $id == '') {
+            $id = $this->session->userdata ('user_details')[0]->users_id;
+        }
+        $data['user_data'] = $this->User_model->get_users($id);
+
+        $yin_year = $this->input->post('year');
+        if($yin_year == "")
+        {
+            $yin_year = date("Y");
+        }
+
+        if(!isset($id) || $id == '') {
+            $user_id = $this->session->userdata ('user_details')[0]->users_id;
+        }
+        $data['pixels'] = $this->Yin_model->getYin($id, $yin_year);
+
+        $this->session->set_userdata('pixels', $data['pixels']);
+        $data = buildPixelTable($data['pixels']);
+        return $data;
     }
 
 }

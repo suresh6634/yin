@@ -193,21 +193,23 @@
 		}
 	}
 	
-  function is_login(){ 
+  function is_login(){
       if(isset($_SESSION['user_details'])){
-          return true;
+      	return true;
       }else{
          redirect( base_url().'user/login', 'refresh');
       }
   }
+
   function form_safe_json($json) {
     $json = empty($json) ? '[]' : $json ;
     $search = array('\\',"\n","\r","\f","\t","\b","'") ;
     $replace = array('\\\\',"\\n", "\\r","\\f","\\t","\\b", "&#039");
     $json = str_replace($search,$replace,$json);
     return strip_tags($json);
-}
-	function CallAPI($method, $url, $data = false)
+  }
+
+  function CallAPI($method, $url, $data = false)
   {   
 	  $curl = curl_init();
 	  switch ($method)
@@ -233,7 +235,8 @@
 	  curl_close($curl);
 	  return $result;
   }
-   	function getDataByid($tableName='',$columnValue='',$colume='')
+
+	function getDataByid($tableName='',$columnValue='',$colume='')
 	{  
 		$CI = get_instance();
 		$CI->db->select('*');
@@ -346,5 +349,82 @@
         $cryptKey = SALTKEY;
 		$qDecoded = rtrim( mcrypt_decrypt( MCRYPT_RIJNDAEL_256, md5( $cryptKey ), base64_decode( $q ), MCRYPT_MODE_CBC, md5( md5( $cryptKey ) ) ), "\0");
 		return( $qDecoded );
+	}
+
+	function buildPixelTable ( $pixels ) {
+		//print_r($pixels);
+
+		echo <<<EOL
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+EOL;
+					for($m=1; $m<=12; ++$m) {
+                        echo '<th scope="col">' . date('M', mktime(0, 0, 0, $m, 1)) . '</th>';
+                    }
+                    echo <<<No2
+				</tr>
+			</thead>
+			<tbody>
+No2;
+			//$selectedYear = date("Y");
+        	$selectedYear = $pixels["selectedYear"];
+			$today = strtotime(date("Y-m-d"));
+			for ($maxDaysinAMonth = 1; $maxDaysinAMonth <= 31; $maxDaysinAMonth++) {
+				echo '<!-- Day '.$maxDaysinAMonth.' starts here-->
+					<tr>
+					<th scope="row">'.$maxDaysinAMonth.'</th>
+				';
+
+				for($datePixel = 1; $datePixel <= 12; $datePixel++) {
+                    $columnPixel = ($datePixel < 10 ? '0'.$datePixel : $datePixel );
+                    $rowPixel = ($maxDaysinAMonth < 10 ? '0'.$maxDaysinAMonth : $maxDaysinAMonth );
+                    $chosenClass = "datePixel";
+                    $thisPixel = $selectedYear.$columnPixel.$rowPixel;
+
+
+                    $pixelDay    = strtotime($selectedYear."-".$datePixel."-".$maxDaysinAMonth);
+
+                    $datediff = $pixelDay - $today;
+                    $difference = floor($datediff/(60*60*24));
+
+                    if($difference > 0)
+                    {
+                        $chosenClass = "disabledDate";
+                    }
+
+                    // Check valid date only after 28th of the month.
+
+                    if ( $maxDaysinAMonth > 28 ) {
+                        if(checkdate($datePixel, $maxDaysinAMonth, $selectedYear)) {
+                            $fullDate = date( "l, d F Y", strtotime( $selectedYear.$columnPixel.$rowPixel ) );
+                        } else {
+                            $fullDate = "";
+                            $chosenClass = "disabledDate";
+                        }
+                    } else {
+                        $fullDate = date( "l, d F Y", strtotime( $selectedYear.$columnPixel.$rowPixel ) );
+                    }
+                    $hasRecord = 0;
+                    $dayScoreClass = "";
+                    $dayScore = "-1";
+                    if(isset($pixels["pixel"][$thisPixel])) {
+                        $hasRecord = 1;
+                        $dayScoreClass = "_".$pixels["pixel"][$thisPixel]["dayscore_id"];
+                        $dayScore = $pixels["pixel"][$thisPixel]["dayscore_id"];
+                    }
+                    $ds = ($dayScore > 0 ? $dayScore : "");
+                    echo <<<TD
+						<td class="$thisPixel $chosenClass $dayScoreClass" data-datePixel="$selectedYear$columnPixel$rowPixel" data-dayscore="$dayScore" data-hasRecord="$hasRecord" data-fullDate="$fullDate">$ds</td>
+TD;
+
+					//echo '<td class="'.$thisPixel.' '.$chosenClass.' '.$dayScoreClass;.'" data-datePixel="'.$selectedYear.''.$columnPixel.''.$rowPixel.'" data-dayscore="'.$dayScore.'" data-hasRecord="'.$hasRecord.'" data-fullDate="'.$fullDate.''.($dayScore > 0 ? $dayScore : '').'</td>';
+				}
+				echo '</tr>';
+					
+			}
+	echo '</tbody>';
+
+
 	}
 ?>

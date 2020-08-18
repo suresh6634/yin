@@ -6,20 +6,28 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
         <!-- Bootstrap CSS -->
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
+        <!-- link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous" -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
         <link rel="stylesheet" href="<?php echo base_url('assets/css/AdminLTE.min.css');?>">
         <!-- AdminLTE Skins. Choose a skin from the css/skins
         folder instead of downloading all of them to reduce the load. -->
         <link rel="stylesheet" href="<?php echo base_url('assets/css/skins/skin-black-light.min.css');?>">
-
+        <link rel="shortcut icon" href="<?php echo base_url('assets/images/favicon.ico'); ?>" type="image/x-icon">
+        <link rel="icon" href="<?php echo base_url('assets/images/favicon.ico'); ?>" type="image/x-icon">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.css" integrity="sha512-/zs32ZEJh+/EO2N1b0PEdoA10JkdC3zJ8L5FTiQu82LR9S/rOQNfQN7U59U9BC12swNeRAz3HSzIL2vpp4fv3w==" crossorigin="anonymous" />
         <title>Year in pixels!</title>
 
         <!--[if lt IE 9]><script src="<?php echo base_url('assets/js/ie8-responsive-file-warning.js'); ?>"></script><![endif]-->
         <script src="<?php echo base_url('assets/js/jquery.min.js'); ?>"></script>
         <!-- jQuery UI 1.11.4 -->
         <script src="<?php echo base_url('assets/js/jquery-ui.min.js'); ?>"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+        <!-- script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script -->
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+        <!-- HTML Editor -->
         <script src="https://cdn.ckeditor.com/ckeditor5/1.0.0-alpha.2/classic/ckeditor.js"></script>
+        <!-- Chart JS -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js" integrity="sha512-s+xg36jbIujB2S2VKfpGmlC3T5V2TF3lY48DX7u2r9XzGzgPsa6wTpOQA7J9iffvdeBN0q9tKzRxVxw1JviZPg==" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.bundle.min.js" integrity="sha512-vBmx0N/uQOXznm/Nbkp7h0P1RfLSj0HQrFSzV8m7rOGyj30fYAOKHYvCNez+yM8IrfnW0TCodDEjRqf6fodf/Q==" crossorigin="anonymous"></script>
         <style type="text/css">
             body {
                 background-color: #d2d6de;
@@ -32,6 +40,7 @@
             }
             .pixel-td {
                 cursor:copy;
+                border: 1px solid #f0f0f0 !important;
             }
             .pixel-table-header .col {
                 border-top: 1px solid #000;
@@ -129,6 +138,9 @@
                 line-height:1em;
                 padding-top: 10px;
             }
+            .yin-table>thead>tr>th, .yin-table>tbody>tr>td, .yin-table>tbody>tr>th {
+                border: 1px solid #DDD !important;
+            }
         </style>
         <script>
            // ClassicEditor.create( document.querySelector( '#pixelComment' ) );
@@ -150,7 +162,8 @@
 
                 }
                 var commentForTheDay = pixelCommentEditor.getData();
-                var formData = $("#modalDayScoreForm").serialize()+"&mode="+mode+"&commentForTheDay="+commentForTheDay;
+                var selectedYear = $("#yin-year").val();
+                var formData = $("#modalDayScoreForm").serialize()+"&year="+selectedYear+"&mode="+mode+"&commentForTheDay="+commentForTheDay;
                 console.log( formData );
                 //console.log ( selectedPixel.attr("data-fulldate") );
 
@@ -186,7 +199,7 @@
             $( document ).ready(function() {
                 var selectedDate;
 
-                $( ".datePixel" ).on ("click", function() {
+                $( document ).on("click", ".datePixel", function() {
 
                     /*//console.log ($(this).attr("data-datepixel"));
                     var thisPixel = $(this);
@@ -195,7 +208,7 @@
                     selectedDate = thisPixel.attr("data-datepixel");
                     var formData = "date="+selectedDate;
 
-                    $.post( "<?php echo base_url().'yin/selectedPixelData'; ?>", formData, function( data ) {
+                    $.post( "<?php //echo base_url().'yin/selectedPixelData'; ?>", formData, function( data ) {
                         var pixel = jQuery.parseJSON( data );
                         if ( data.ok == 1 ) {
                             console.log(pixel);
@@ -249,10 +262,11 @@
                     $(".dayscore-block").show();
                 });
 
-                $( ".dayscore" ).on ("click", function() {
+                $( document ).on("click", ".dayscore", function() {
                     var isSelected = $(this).attr("data-selected");
                     var dayScore = $(this).attr("data-dayscore");
                     var dayMood = $(this).attr("data-mood");
+                    //console.log("clicked "+isSelected+" "+dayScore+" "+dayMood);
                     if (isSelected == 1) {
                         $(this).attr( "data-selected", 0 );
                         $(this).removeClass( "de-select" );
@@ -263,7 +277,7 @@
                     } else if (isSelected == 0) {
                         $(".scoreForTheDay").html( dayMood );
                         $(this).siblings( "data-selected", 0 );
-                        $(this).attr( "data-selected", 1 );
+                        //$(this).attr( "data-selected", 1 );
                         //$( ".dayscore-block" ).slideUp( 400,  );
                         $(this).siblings().slideUp( 200, "easeInCirc" );
                         $("#dayscore-comments").slideDown( 200, "easeOutCirc" );
@@ -285,6 +299,16 @@
                     $('.pixelDateModal').modal('hide');
                     addDayScore( $("."+selectedDate) );
                     pixelCommentEditor.setData("");
+                });
+
+                $( document ).on("change", "#yin-year", function(){
+                    var formData = "year="+$(this).val();
+                    //alert(formData);
+                    $.post( "<?php echo base_url().'yin/changeYear'; ?>", formData, function( data ) {
+                        //alert('test');
+                        //console.log(data);
+                        $("#yin-table").html("").html(data);
+                    });
                 });
             });
         </script>

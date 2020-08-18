@@ -1,11 +1,13 @@
 <body class="hold-transition login-page">
   <div class="login-box">
-    <div class="login-logo">
-      <a href="<?php echo base_url(); ?>"><b>User Login and Management</b></a>
-    </div>
+      <div class="login-logo">
+          <a href="<?php echo base_url(); ?>" class="logo">
+              <span class="logo-lg"><img src="<?php echo base_url().'assets/images/logo.png' ?>" id="logo" alt="YIN Logo"></span>
+          </a>
+      </div>
     <!-- /.login-logo -->
     <div class="login-box-body">
-      <p class="login-box-msg">Please enter your or email address. You will receive a link to create a new password via email.</p>
+      <p class="login-box-msg" style="text-align:left; padding: 0 0 20px 0;">Please enter your or email address. You will receive a link to reset the password via email.</p>
       <?php if($this->session->flashdata('forgotpassword')):?>
         <div class="callout callout-success">
           <h5 style='color:red;' class="fa fa-close">  <?php echo $this->session->flashdata('forgotpassword'); ?></h5>
@@ -19,7 +21,7 @@
         <div class="row">
           <!-- /.col -->
           <div class="col-xs-12">
-            <button type="submit" class="btn btn-primary btn-block btn-flat btn-color">Get New Password</button>
+            <button type="submit" class="btn btn-primary btn-block btn-flat btn-color">Reset Password</button>
           </div>
           <div class="text-center">
             <span class="glyph-icon-back glyphicon glyphicon-circle-arrow-left" style="cursor:pointer" onclick="window.history.back()" title="Back"></span>

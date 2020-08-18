@@ -4,11 +4,12 @@ class Yin_model extends CI_Model {
 	  	parent::__construct();
 		$this->user_id = isset($this->session->get_userdata()['user_details'][0]->id)?$this->session->get_userdata()['user_details'][0]->users_id:'1';
         $this->load->helper('my_helper');
+        $this->load->library('session');
 	}
 
-    public function getYin($user_id)
+    public function getYin($user_id, $yin_year)
     {
-        $year = 2018;
+        $year = $yin_year;
         $sql = "SELECT * FROM yin WHERE user_id = ? AND year = ?";
         $query = $this->db->query($sql, array($user_id, $year));
 
@@ -27,10 +28,10 @@ class Yin_model extends CI_Model {
                 $date_pixel[$pixel->date] = (array) $pixel;
                 //$date_pixel[$pixel->date] = (array) $pixel;
             }
-            $result["result"] = (array) $query->result_object;
+            //$result["result"] = (array) $query->result_object;
             $result["pixel"] = $date_pixel;
         }
-
+        $result["selectedYear"] = $year;
         return $result;
     }
 
@@ -42,11 +43,12 @@ class Yin_model extends CI_Model {
             'modified_datetime' => date("Y-m-d H:i:s")
         );
         $mode = $this->input->post('mode');
+        $selectedDate = $this->input->post('selectedDate');
         $result["ok"] = false;
         if ($mode == "insert") {
             $data["user_id"] = $user_id;
             $data["year"] = $year;
-            $data["date"] = $this->input->post('selectedDate');
+            $data["date"] = $selectedDate;
             $data["created_datetime"] = date("Y-m-d H:i:s");
             $result["ok"] = $this->db->insert('yin', $data);
         } else if ($mode == "update") {
@@ -54,9 +56,13 @@ class Yin_model extends CI_Model {
             //$condition = "`yin`.`user_id` = ".$this->user_id." AND `yin`.`date` = ".$this->input->post('selectedDate');
             $this->db->set($data);
             $this->db->where('user_id', $user_id);
-            $this->db->where('date', $this->input->post('selectedDate'));
+            $this->db->where('date', $selectedDate);
             //$this->db->where($condition);
             $result["ok"] = $this->db->update('yin');
+        }
+        if ($result["ok"] == 1) {
+            $_SESSION["pixels"]["pixel"][$selectedDate] = $data;
+            $_SESSION["pixels"]["pixel"][$selectedDate]["comment"] = htmlentities($this->input->post('commentForTheDay'), ENT_QUOTES);
         }
         $result["data"] = $data;
         return $result;

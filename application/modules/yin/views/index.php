@@ -1,15 +1,17 @@
 
-        <!--<pre>
+        <pre>
             <?php
-/*                //print_r($ipinfo);
+                //print_r($ipinfo);
                 //print_r($pixels);
-                print_r( $_SESSION['pixels']);
-            */?>
-        </pre>-->
-        <div class="clearfix"></div>
+                //print_r( $_SESSION['pixels']);
+            ?>
+        </pre>
+        <div class="clearfix">
+        </div>
         <!-- Content container ends here -->
         <div class="container pixel-container bg-white" style="width:600px;margin: 10px auto;font-size:11px;">
             <hr>
+
             <!-- Modal starts here -->
             <div class="modal fade pixelDateModal" tabindex="-1" role="dialog" aria-labelledby="pixelDateModal" aria-hidden="true">
                 <div class="modal-dialog modal-lg">
@@ -95,95 +97,34 @@
                 </div>
             </div>
             <!-- Modal ends here -->
-
-            <!-- pixel table starts here -->
-            <table class="table table-bordered yin-table" style="">
-                <thead>
-                <tr>
-                    <th scope="col">#</th>
-                    <?php
-                    for($m=1; $m<=12; ++$m){
-                        echo '<th scope="col">'.date('M', mktime(0, 0, 0, $m, 1)).'</th>';
-                    }
-                    ?>
-                    <!-- th scope="col">Jan</th>
-                    <th scope="col">Feb</th>
-                    <th scope="col">Mar</th>
-                    <th scope="col">Apr</th>
-                    <th scope="col">May</th>
-                    <th scope="col">Jun</th>
-                    <th scope="col">Jul</th>
-                    <th scope="col">Aug</th>
-                    <th scope="col">Sep</th>
-                    <th scope="col">Oct</th>
-                    <th scope="col">Nov</th>
-                    <th scope="col">Dec</th -->
-                </tr>
-                </thead>
-                <tbody>
-                <?php
-                    $selectedYear = date("Y");
-                    $today = strtotime(date("Y-m-d"));
-                    for ($maxDaysinAMonth = 1; $maxDaysinAMonth <= 31; $maxDaysinAMonth++) {
-                    ?>
-                    <!-- Day <?php echo $maxDaysinAMonth; ?> starts here-->
-                    <tr>
-                        <th scope="row"><?php echo $maxDaysinAMonth; ?></th>
+            <div class="row align-items-center">
+                <div class="col pl-0 pb-3">
+                    <select name="yin-year" id="yin-year">
                         <?php
-                            for($datePixel = 1; $datePixel <= 12; $datePixel++) {
-                                $columnPixel = ($datePixel < 10 ? '0'.$datePixel : $datePixel );
-                                $rowPixel = ($maxDaysinAMonth < 10 ? '0'.$maxDaysinAMonth : $maxDaysinAMonth );
-                                $chosenClass = "datePixel";
-                                $thisPixel = $selectedYear.$columnPixel.$rowPixel;
-
-
-                                $pixelDay    = strtotime($selectedYear."-".$datePixel."-".$maxDaysinAMonth);
-
-                                $datediff = $pixelDay - $today;
-                                $difference = floor($datediff/(60*60*24));
-
-                                if($difference > 0)
-                                {
-                                    $chosenClass = "disabledDate";
-                                }
-
-                                // Check valid date only after 28th of the month.
-
-                                if ( $maxDaysinAMonth > 28 ) {
-                                    if(checkdate($datePixel, $maxDaysinAMonth, $selectedYear)) {
-                                        $fullDate = date( "l, d F Y", strtotime( $selectedYear.$columnPixel.$rowPixel ) );
-                                    } else {
-                                        $fullDate = "";
-                                        $chosenClass = "disabledDate";
-                                     }
-                                } else {
-                                    $fullDate = date( "l, d F Y", strtotime( $selectedYear.$columnPixel.$rowPixel ) );
-                                }
-                                $hasRecord = 0;
-                                $dayScoreClass = "";
-                                $dayScore = "-1";
-                                if(isset($pixels["pixel"][$thisPixel])) {
-                                    $hasRecord = 1;
-                                    $dayScoreClass = "_".$pixels["pixel"][$thisPixel]["dayscore_id"];
-                                    $dayScore = $pixels["pixel"][$thisPixel]["dayscore_id"];
-                                }
-
-                                ?>
-
-                                <td class="<?php echo $thisPixel." ".$chosenClass." ".$dayScoreClass; ?>" data-datePixel="<?php echo $selectedYear.$columnPixel.$rowPixel; ?>" data-dayscore="<?php echo $dayScore; ?>" data-hasRecord="<?php echo $hasRecord; ?>" data-fullDate="<?php echo $fullDate; ?>"><?php echo ($dayScore > 0 ? $dayScore : ""); ?></td>
-
-                                <?php
+                            $total_years = date("Y") - 2017;
+                            for($y=0; $y<$total_years; $y++){
+                                echo $y;
+                                $yin_date = date('Y', strtotime('-'.$y.' year'));
+                                echo '<option value="'.$yin_date.'">'.$yin_date.'</option>';
                             }
                         ?>
-                    </tr>
-                    <!-- Day <?php echo $maxDaysinAMonth; ?> ends here-->
-
-                    <?php
-                }
-                ?>
-                </tbody>
+                    </select>
+                </div>
+                <div class="col">
+                </div>
+                <div class="col">
+                </div>
+            </div>
+            <!-- pixel table starts here -->
+            <table class="table yin-table" id="yin-table" style="">
+            <?php
+                //To replace the buildPixelTable function below use yin-table.txt
+                buildPixelTable($pixels);
+            ?>
             </table>
             <!-- pixel table ends here -->
             <!-- Content container ends here -->
-            <hr>
+            <hr/>
+            <canvas id="yin-chart" width="400" height="400"></canvas>
+            <hr/>
         </div>
