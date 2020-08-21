@@ -16,7 +16,7 @@ class User_model extends CI_Model {
 		if(!empty($result)){       
 			if (password_verify($password, $result[0]->password)) {       
 				if($result[0]->status != 'active') {
-					return 'not_varified';
+					return 'not_verified';
 				}
 				return $result;                    
 			}

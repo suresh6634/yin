@@ -37,7 +37,8 @@ class User extends CI_Controller {
      */
     public function login(){
         if(isset($_SESSION['user_details'])){
-            redirect( base_url().'user/profile', 'refresh');
+            //redirect( base_url().'user/profile', 'refresh');
+            redirect( base_url(), 'refresh');
         }
         $this->load->view('include/script');
         $this->load->view('login');
@@ -60,7 +61,9 @@ class User extends CI_Controller {
      */
     public function registration(){
         if(isset($_SESSION['user_details'])){
-            redirect( base_url().'user/profile', 'refresh');
+            //redirect( base_url().'user/profile', 'refresh');
+            //redirect( base_url().'user/profile', 'refresh');
+            redirect( base_url(), 'refresh');
         }
         //Check if admin allow to registration for user
         if(setting_all('register_allowed')==1){
@@ -84,35 +87,17 @@ class User extends CI_Controller {
      */
     public function auth_user($page =''){
         $return = $this->User_model->auth_user();
-        if (ENVIRONMENT == "development") {
-            print_r($_SESSION);
-        }
         if(empty($return)) {
             $this->session->set_flashdata('messagePr', 'Incorrect username or password.');
             redirect( base_url().'user/login', 'refresh');
-            if (ENVIRONMENT == "development") {
-                echo "inside if (empty(return))";
-                die();
-            }
         } else {
-            if($return == 'not_varified') {
+            if($return == 'not_verified') {
                 $this->session->set_flashdata('messagePr', 'This accout is not verified. Please contact to your admin..');
-                redirect( base_url().'user/login', 'refresh');
-                if (ENVIRONMENT == "development") {
-                    echo "inside else not verified";
-                    die();
-                }
             } else {
                 $this->session->set_userdata('user_details',$return);
-                if (ENVIRONMENT == "development") {
-                    echo "inside else else";
-                    echo "<pre>";
-                    print_r($_SESSION);
-                    echo "</pre>";
-                }
             }
-            redirect( base_url().'user/profile', 'refresh');
-            //redirect( base_url(), 'refresh');
+            //redirect( base_url().'user/profile', 'refresh');
+            redirect( base_url(), 'refresh' );
         }
     }
 

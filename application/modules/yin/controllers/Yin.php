@@ -18,19 +18,7 @@ class Yin extends CI_Controller {
      * @return Void
      */
     public function index(){
-        if (ENVIRONMENT == "development") {
-            echo "<pre>";
-            print_r($_SESSION);
-            echo "</pre>";
-            die();
-        }
         is_login();
-        if (ENVIRONMENT == "development") {
-            echo "<pre>";
-            print_r($_SESSION);
-            echo "</pre>";
-            die();
-        }
         if(!isset($id) || $id == '') {
             $id = $this->session->userdata ('user_details')[0]->users_id;
         }
