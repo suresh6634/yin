@@ -111,8 +111,8 @@ class User extends CI_Controller {
                     echo "</pre>";
                 }
             }
-            //redirect( base_url().'user/profile', 'refresh');
-            redirect( base_url(), 'refresh');
+            redirect( base_url().'user/profile', 'refresh');
+            //redirect( base_url(), 'refresh');
         }
     }
 
