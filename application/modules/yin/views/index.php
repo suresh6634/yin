@@ -1,7 +1,7 @@
         <?php if (ENVIRONMENT == "development") { ?>
             <pre>
                 <?php
-                        //print_r($_SESSION);
+                        print_r($_SESSION);
                         //print_r($ipinfo);
                         //print_r($pixels);
                         //print_r( $_SESSION['pixels']);

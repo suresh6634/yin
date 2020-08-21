@@ -95,6 +95,7 @@ class User extends CI_Controller {
                 $this->session->set_flashdata('messagePr', 'This accout is not verified. Please contact to your admin..');
             } else {
                 $this->session->set_userdata('user_details',$return);
+                $this->session->set_userdata('suresh',"This is a test message");
             }
             //redirect( base_url().'user/profile', 'refresh');
             redirect( base_url(), 'refresh' );
