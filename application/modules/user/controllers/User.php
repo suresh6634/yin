@@ -105,7 +105,9 @@ class User extends CI_Controller {
                 $this->session->set_userdata('user_details',$return);
                 if (ENVIRONMENT == "development") {
                     echo "inside else else";
+                    echo "<pre>";
                     print_r($_SESSION);
+                    echo "</pre>";
                     die();
                 }
             }
