@@ -102,11 +102,11 @@ class User extends CI_Controller {
                     die();
                 }
             } else {
+                $this->session->set_userdata('user_details',$return);
                 if (ENVIRONMENT == "development") {
-                    echo "inside else else";
+                    print_r($_SESSION);
                     die();
                 }
-                $this->session->set_userdata('user_details',$return);
             }
             //redirect( base_url().'user/profile', 'refresh');
             redirect( base_url(), 'refresh');
