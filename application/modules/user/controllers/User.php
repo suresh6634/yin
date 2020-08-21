@@ -83,7 +83,7 @@ class User extends CI_Controller {
      */
     public function auth_user($page =''){
         $return = $this->User_model->auth_user();
-        if (ENVIRNONMENT == "development") {
+        if (ENVIRONMENT == "development") {
             echo "<pre>";
             print_r($return);
             echo "</pre>";
