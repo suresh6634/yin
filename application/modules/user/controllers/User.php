@@ -5,6 +5,7 @@ class User extends CI_Controller {
     function __construct() {
         parent::__construct();
         $this->load->model('User_model');
+        $this->load->library('session');
         $this->user_id = isset($this->session->get_userdata()['user_details'][0]->id)?$this->session->get_userdata()['user_details'][0]->users_id:'1';
     }
 
