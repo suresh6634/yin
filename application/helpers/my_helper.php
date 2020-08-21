@@ -194,9 +194,20 @@
 	}
 	
   function is_login(){
+      if (ENVIRONMENT == "development") {
+          echo "<pre>";
+          print_r($_SESSION);
+          echo "</pre>";
+      }
       if(isset($_SESSION['user_details'])){
       	return true;
       }else{
+          if (ENVIRONMENT == "development") {
+              echo "<pre>";
+              echo "inside is_login else";
+              echo "</pre>";
+              die();
+          }
          redirect( base_url().'user/login', 'refresh');
       }
   }
