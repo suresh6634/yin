@@ -197,6 +197,7 @@
       if(isset($_SESSION['user_details'])){
       	return true;
       }else{
+      	 $this->session->set_userdata('is_login',"Inside is login");
          redirect( base_url().'user/login', 'refresh');
       }
   }
