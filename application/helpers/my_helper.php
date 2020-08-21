@@ -206,7 +206,7 @@
               echo "<pre>";
               echo "inside is_login else";
               echo "</pre>";
-              die();
+
           }
          redirect( base_url().'user/login', 'refresh');
       }

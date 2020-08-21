@@ -22,6 +22,7 @@ class Yin extends CI_Controller {
             echo "<pre>";
             print_r($_SESSION);
             echo "</pre>";
+
         }
         is_login();
         if (ENVIRONMENT == "development") {
