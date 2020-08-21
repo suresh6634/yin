@@ -49,6 +49,7 @@ class User extends CI_Controller {
     public function logout(){
         is_login();
         $this->session->unset_userdata('user_details');
+        $this->session->unset_userdata('pixels');
         redirect( base_url().'user/login', 'refresh');
     }
 

@@ -20,7 +20,7 @@
             </div>
         </div>
         <!-- footer container ends here -->
-        <script>
+        <!-- script>
             data = {
                 // These labels appear in the legend and in the tooltips when hovering different arcs
                 labels: [
@@ -33,7 +33,7 @@
                     'Stressed-out'
                 ],
                 datasets: [{
-                    data: [5, 9, 15, 21, 29, 36, 36],
+                    data: [36,0,29,21,15,9,5],
                     backgroundColor: [
                         "rgb(22, 169, 239)",
                         "rgb(104, 27, 154)",
@@ -51,6 +51,95 @@
                 cutoutPercentage:'50',
                 data: data
             });
+        </script -->
+        <script>
+            var config = {
+                type: 'line',
+                data: {
+                    labels: ['January', 'February', 'March', 'April', 'May'],
+                    datasets: [{
+                        label: 'Amazing',
+                        backgroundColor: "rgb(22, 169, 239)",
+                        borderColor: "rgb(22, 169, 239)",
+                        data: [6, 6, 9, 9, 6],
+                        fill: false,
+                    }, {
+                        label: 'Good and Happy',
+                        fill: false,
+                        backgroundColor: "rgb(104, 27, 154)",
+                        borderColor: "rgb(104, 27, 154)",
+                        data: [9, 7, 6, 5, 9],
+                    }, {
+                        label: 'Normal',
+                        fill: false,
+                        backgroundColor: "rgb(141, 208, 74)",
+                        borderColor: "rgb(141, 208, 74)",
+                        data: [5, 8, 5, 7, 4],
+                    }, {
+                        label: 'Exhausted',
+                        fill: false,
+                        backgroundColor: "rgb(255, 255, 4)",
+                        borderColor: "rgb(255, 255, 4)",
+                        data: [5, 2, 7, 1, 6],
+                    }, {
+                        label: 'Depressed',
+                        fill: false,
+                        backgroundColor: "rgb(252, 190, 8)",
+                        borderColor: "rgb(252, 190, 8)",
+                        data: [1, 3, 3, 4, 4],
+                    }, {
+                        label: 'Frustrated',
+                        fill: false,
+                        backgroundColor: "rgb(250, 6, 4)",
+                        borderColor: "rgb(250, 6, 4)",
+                        data: [3, 2, 1, 2, 1],
+                    }, {
+                        label: 'Stressed-out',
+                        fill: false,
+                        backgroundColor: "rgb(184, 4, 3)",
+                        borderColor: "rgb(184, 4, 3)",
+                        data: [2, 0, 0, 2, 1],
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    title: {
+                        display: true,
+                        text: 'Year In Pixels'
+                    },
+                    tooltips: {
+                        mode: 'index',
+                        intersect: false,
+                    },
+                    hover: {
+                        mode: 'nearest',
+                        intersect: true
+                    },
+                    scales: {
+                        xAxes: [{
+                            display: true,
+                            scaleLabel: {
+                                display: true,
+                                labelString: 'Month'
+                            }
+                        }],
+                        yAxes: [{
+                            display: true,
+                            scaleLabel: {
+                                display: true,
+                                labelString: 'Value'
+                            },
+                            ticks: {
+                                min: 0
+                            }
+                        }]
+                    }
+                }
+            };
+
+            var ctx = document.getElementById('yin-chart').getContext('2d');
+            window.myLine = new Chart(ctx, config);
+
         </script>
     </body>
 </html>

@@ -1,16 +1,18 @@
-
-        <pre>
-            <?php
-                //print_r($ipinfo);
-                //print_r($pixels);
-                //print_r( $_SESSION['pixels']);
-            ?>
-        </pre>
+        <?php if (ENVIRONMENT == "development") { ?>
+            <pre>
+                <?php
+                        print_r($_SESSION);
+                        //print_r($ipinfo);
+                        //print_r($pixels);
+                        //print_r( $_SESSION['pixels']);
+                ?>
+            </pre>
+        <?php } ?>
         <div class="clearfix">
         </div>
         <!-- Content container ends here -->
-        <div class="container pixel-container bg-white" style="width:600px;margin: 10px auto;font-size:11px;">
-            <hr>
+        <div class="container pixel-container bg-white" style="overflow:hidden;width:600px;padding-top:15px;font-size:11px;">
+            <!-- hr -->
 
             <!-- Modal starts here -->
             <div class="modal fade pixelDateModal" tabindex="-1" role="dialog" aria-labelledby="pixelDateModal" aria-hidden="true">
@@ -112,19 +114,19 @@
                 </div>
                 <div class="col">
                 </div>
-                <div class="col">
+                <div class="col pr-0 pb-3">
+                    <span id="show-graph"></span>
                 </div>
             </div>
             <!-- pixel table starts here -->
-            <table class="table yin-table" id="yin-table" style="">
+            <table class="table yin-table" id="yin-table">
             <?php
                 //To replace the buildPixelTable function below use yin-table.txt
                 buildPixelTable($pixels);
             ?>
             </table>
+            <canvas id="yin-chart" width="400" height="400" style="display:none;"></canvas>
             <!-- pixel table ends here -->
             <!-- Content container ends here -->
-            <hr/>
-            <canvas id="yin-chart" width="400" height="400"></canvas>
-            <hr/>
+            <!-- hr/ -->
         </div>

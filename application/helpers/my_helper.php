@@ -377,6 +377,7 @@ No2;
 				';
 
 				for($datePixel = 1; $datePixel <= 12; $datePixel++) {
+                    $weekDay = "";
                     $columnPixel = ($datePixel < 10 ? '0'.$datePixel : $datePixel );
                     $rowPixel = ($maxDaysinAMonth < 10 ? '0'.$maxDaysinAMonth : $maxDaysinAMonth );
                     $chosenClass = "datePixel";
@@ -398,13 +399,16 @@ No2;
                     if ( $maxDaysinAMonth > 28 ) {
                         if(checkdate($datePixel, $maxDaysinAMonth, $selectedYear)) {
                             $fullDate = date( "l, d F Y", strtotime( $selectedYear.$columnPixel.$rowPixel ) );
+                            $weekDay = date( "D", strtotime( $selectedYear.$columnPixel.$rowPixel ) );
                         } else {
                             $fullDate = "";
                             $chosenClass = "disabledDate";
                         }
                     } else {
                         $fullDate = date( "l, d F Y", strtotime( $selectedYear.$columnPixel.$rowPixel ) );
+                        $weekDay = date( "D", strtotime( $selectedYear.$columnPixel.$rowPixel ) );
                     }
+
                     $hasRecord = 0;
                     $dayScoreClass = "";
                     $dayScore = "-1";
@@ -415,9 +419,8 @@ No2;
                     }
                     $ds = ($dayScore > 0 ? $dayScore : "");
                     echo <<<TD
-						<td class="$thisPixel $chosenClass $dayScoreClass" data-datePixel="$selectedYear$columnPixel$rowPixel" data-dayscore="$dayScore" data-hasRecord="$hasRecord" data-fullDate="$fullDate">$ds</td>
+						<td class="$thisPixel $chosenClass $dayScoreClass" data-datePixel="$selectedYear$columnPixel$rowPixel" data-dayscore="$dayScore" data-hasRecord="$hasRecord" data-fullDate="$fullDate"><span class="weekday">$weekDay</span><span class="ds">$ds</span></td>
 TD;
-
 					//echo '<td class="'.$thisPixel.' '.$chosenClass.' '.$dayScoreClass;.'" data-datePixel="'.$selectedYear.''.$columnPixel.''.$rowPixel.'" data-dayscore="'.$dayScore.'" data-hasRecord="'.$hasRecord.'" data-fullDate="'.$fullDate.''.($dayScore > 0 ? $dayScore : '').'</td>';
 				}
 				echo '</tr>';

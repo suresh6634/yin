@@ -97,5 +97,17 @@ class Yin extends CI_Controller {
         return $data;
     }
 
+    public function updateMonthDay(){
+        /*
+         * This function is created to update all the records in the yin (table) to split the month and day for the new fields created in the table.
+         */
+        /*
+            $data["result"] = $this->Yin_model->updateMonthDay();
+            echo "<pre>";
+            print_r($data);
+            echo "</pre>";
+        */
+    }
+
 }
 ?>

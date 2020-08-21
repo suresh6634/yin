@@ -44,10 +44,14 @@ class Yin_model extends CI_Model {
         );
         $mode = $this->input->post('mode');
         $selectedDate = $this->input->post('selectedDate');
+        $month = substr($selectedDate,4,-2);
+        $day = substr($selectedDate,6);
         $result["ok"] = false;
         if ($mode == "insert") {
             $data["user_id"] = $user_id;
             $data["year"] = $year;
+            $data["month"] = $month;
+            $data["day"] = $day;
             $data["date"] = $selectedDate;
             $data["created_datetime"] = date("Y-m-d H:i:s");
             $result["ok"] = $this->db->insert('yin', $data);
@@ -66,5 +70,41 @@ class Yin_model extends CI_Model {
         }
         $result["data"] = $data;
         return $result;
+    }
+
+    public function updateMonthDay()
+    {
+        /*
+         * This function is created to update all the records in the yin (table) to split the month and day for the new fields created in the table.
+         */
+        /*
+
+        $sql = "SELECT id, date, month, day FROM yin";
+        $query = $this->db->query($sql);
+
+        $row = $query->row();
+        $result["ok"] = 0;
+
+        if ($query->result_id->num_rows > 0) {
+            $result["ok"] = 1;
+            $result["result_object"] = (array) $query->result_object;
+
+            foreach ($result["result_object"] as $row) {
+
+                $month = substr($row->date,4,-2);
+                $day =  substr($row->date,6);
+                $data = array(
+                    'month' => $month,
+                    'day' => $day
+                );
+                $this->db->set($data);
+                $this->db->where('id', $row->id);
+                $result["udpated_result"] = $this->db->update('yin');
+            }
+
+        }
+        return $result;
+
+        */
     }
 }

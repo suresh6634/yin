@@ -141,6 +141,34 @@
             .yin-table>thead>tr>th, .yin-table>tbody>tr>td, .yin-table>tbody>tr>th {
                 border: 1px solid #DDD !important;
             }
+            #show-graph {
+                display:block;
+                float: right;
+                width: 24px;
+                height: 24px;
+                border: 0;
+                cursor: pointer;
+                background: none;
+                background-image: url("<?php echo base_url('assets/images/pie-chart.png');?>");
+                background-repeat: no-repeat;
+
+            }
+            #yin-chart {
+                display:none;
+            }
+            .weekday {
+                display: block;
+                float: left;
+                font-size: 8px;
+                color: #AAA;
+                margin:-10px 0 0 -8px;
+                text-transform: uppercase;
+            }
+            .ds {
+                display: block;
+                position: absolute;
+                margin: 0 0 0 9px;
+            }
         </style>
         <script>
            // ClassicEditor.create( document.querySelector( '#pixelComment' ) );
@@ -198,6 +226,11 @@
 
             $( document ).ready(function() {
                 var selectedDate;
+
+                $(document).on("click", "#show-graph", function(){
+                    $( "#yin-table" ).hide( "fold", 500 );
+                    $( "#yin-chart" ).show( "fold", 500 );
+                });
 
                 $( document ).on("click", ".datePixel", function() {
 

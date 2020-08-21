@@ -1,4 +1,9 @@
 <body class="hold-transition login-page">
+            <?php if (ENVIRONMENT == "development") { ?>
+            <pre>
+                <?php print_r($_SESSION); ?>
+            </pre>
+            <?php } ?>
 	<div class="login-box">
 	  	<div class="login-logo">
             <a href="<?php echo base_url(); ?>" class="logo">
@@ -7,6 +12,7 @@
         </div>
 	  	<!-- /.login-logo -->
 	  	<div class="login-box-body">
+
 	    	<p class="login-box-msg">Sign in</p>
 			<?php if($this->session->flashdata("messagePr")){?>
 	  		<div class="alert alert-info" style="background-color: #f8d7da !important; color: #721c24 !important; border-color: #f5c6cb !important;">
