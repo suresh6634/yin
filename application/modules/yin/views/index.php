@@ -1,12 +1,12 @@
         <?php if (ENVIRONMENT == "development") { ?>
-            <pre>
+            <!--pre>
                 <?php
                         //print_r($_SESSION);
                         //print_r($ipinfo);
                         //print_r($pixels);
                         //print_r( $_SESSION['pixels']);
                 ?>
-            </pre>
+            </pre -->
         <?php } ?>
         <div class="clearfix">
         </div>
