@@ -108,7 +108,6 @@ class User extends CI_Controller {
                     echo "<pre>";
                     print_r($_SESSION);
                     echo "</pre>";
-                    die();
                 }
             }
             //redirect( base_url().'user/profile', 'refresh');
