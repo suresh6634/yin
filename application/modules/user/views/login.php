@@ -1,8 +1,8 @@
 <body class="hold-transition login-page">
             <?php if (ENVIRONMENT == "development") { ?>
-            <pre>
-                <?php print_r($_SESSION); ?>
-            </pre>
+            <!-- pre>
+                <?php //print_r($_SESSION); ?>
+            </pre -->
             <?php } ?>
 	<div class="login-box">
 	  	<div class="login-logo">

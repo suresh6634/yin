@@ -87,7 +87,6 @@ class User extends CI_Controller {
      */
     public function auth_user($page =''){
         $return = $this->User_model->auth_user();
-        $this->session->set_userdata('inside_auth_user_else_else',$return);
         if(empty($return)) {
             $this->session->set_flashdata('messagePr', 'Incorrect username or password.');
             redirect( base_url().'user/login', 'refresh');
@@ -96,7 +95,6 @@ class User extends CI_Controller {
                 $this->session->set_flashdata('messagePr', 'This accout is not verified. Please contact to your admin..');
             } else {
                 $this->session->set_userdata('user_details',$return);
-                $this->session->set_userdata('inside_auth_user_else_else',$this->session->userdata ('user_details')[0]);
             }
             //redirect( base_url().'user/profile', 'refresh');
             redirect( base_url(), 'refresh' );
