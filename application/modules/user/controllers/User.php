@@ -83,12 +83,18 @@ class User extends CI_Controller {
      */
     public function auth_user($page =''){
         $return = $this->User_model->auth_user();
+        if (ENVIRNONMENT == "development") {
+            echo "<pre>";
+            print_r($return);
+            echo "</pre>";
+            die();
+        }
         if(empty($return)) {
             $this->session->set_flashdata('messagePr', 'Incorrect username or password.');
             redirect( base_url().'user/login', 'refresh');
         } else {
             if($return == 'not_varified') {
-                $this->session->set_flashdata('messagePr', 'This accout is not varified. Please contact to your admin..');
+                $this->session->set_flashdata('messagePr', 'This accout is not verified. Please contact to your admin..');
                 redirect( base_url().'user/login', 'refresh');
             } else {
                 $this->session->set_userdata('user_details',$return);
@@ -136,7 +142,7 @@ class User extends CI_Controller {
                     $emm = mail($email,$sub,$body,$headers);
                 }
                 if($emm) {
-                    $this->session->set_flashdata('messagePr', 'To reset your password, link has been sent to your email');
+                    $this->session->set_flashdata('messagePr', 'To reset your password, kindly click the link sent to your email');
                     redirect( base_url().'user/login','refresh');
                 }
             } else {
@@ -172,7 +178,7 @@ class User extends CI_Controller {
     public function reset_password(){
         $return = $this->User_model->ResetPpassword();
         if($return){
-            $this->session->set_flashdata('messagePr', 'Password Changed Successfully..');
+            $this->session->set_flashdata('messagePr', 'Password changed successfully..');
             redirect( base_url().'user/login', 'refresh');
         } else {
             $this->session->set_flashdata('messagePr', 'Unable to update password');
