@@ -17,7 +17,6 @@ class User_model extends CI_Model {
             echo "<pre>";
             print_r($result);
             echo "</pre>";
-            die();
         }
 		if(!empty($result)){       
 			if (password_verify($password, $result[0]->password)) {       
