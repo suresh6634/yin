@@ -13,11 +13,6 @@ class User_model extends CI_Model {
 		$password = $this->input->post('password');
     	$this->db->where("is_deleted='0' AND (name='$email' OR email='$email')");
 		$result = $this->db->get('users')->result();
-        if (ENVIRONMENT == "development") {
-            echo "<pre>";
-            print_r($result);
-            echo "</pre>";
-        }
 		if(!empty($result)){       
 			if (password_verify($password, $result[0]->password)) {       
 				if($result[0]->status != 'active') {

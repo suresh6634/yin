@@ -82,21 +82,37 @@ class User extends CI_Controller {
      * @return Void
      */
     public function auth_user($page =''){
+        if (ENVIRONMENT == "development") {
+            echo "<pre>";
+            print_r($return);
+            echo "</pre>";
+        }
         $return = $this->User_model->auth_user();
         if (ENVIRONMENT == "development") {
             echo "<pre>";
             print_r($return);
             echo "</pre>";
-            die();
         }
         if(empty($return)) {
+            if (ENVIRONMENT == "development") {
+                echo "Inside Return";
+                die();
+            }
             $this->session->set_flashdata('messagePr', 'Incorrect username or password.');
             redirect( base_url().'user/login', 'refresh');
         } else {
             if($return == 'not_varified') {
+                if (ENVIRONMENT == "development") {
+                    echo "Else if not verified";
+                    die();
+                }
                 $this->session->set_flashdata('messagePr', 'This accout is not verified. Please contact to your admin..');
                 redirect( base_url().'user/login', 'refresh');
             } else {
+                if (ENVIRONMENT == "development") {
+                    echo "Else  else";
+                    die();
+                }
                 $this->session->set_userdata('user_details',$return);
             }
             //redirect( base_url().'user/profile', 'refresh');
