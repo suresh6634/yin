@@ -350,7 +350,7 @@
     <!-- header container starts here -->
     <div class="wrapper" class="bg-white" style="width:600px;margin: 10px auto;">
         <header class="main-header">
-            <a href="<?php echo base_url(); ?>" class="logo">
+            <a href="<?php echo base_url(); ?>" class="logo pl-0">
                 <span class="logo-lg"><img src="<?php echo base_url().'assets/images/logo.png' ?>" id="logo" alt="YIN Logo"></span>
             </a>
             <!-- Header Navbar: style can be found in header.less -->
@@ -375,12 +375,12 @@
                                 <img src="<?php echo base_url().'assets/images/'.$profile_pic;?>" class="user-image" alt="User Image" style="margin-right:0;">
                                 <!-- span class="hidden-xs"><?php echo isset($this->session->userdata('user_details')[0]->name)?$this->session->userdata('user_details')[0]->name:'';?></span -->
                             </a>
-                            <a href="#">
+                            <!-- a href="#">
                                 <img src="<?php echo base_url().'assets/images/search.png';?>" class="icons" alt="Search">
                             </a>
                             <a href="#">
                                 <img src="<?php echo base_url().'assets/images/setting.png';?>" class="icons" alt="Setting">
-                            </a>
+                            </a -->
                             <a href="<?php echo base_url()."user/logout"; ?>">
                                 <img src="<?php echo base_url().'assets/images/logout.png';?>" class="icons" alt="Logout">
                             </a>

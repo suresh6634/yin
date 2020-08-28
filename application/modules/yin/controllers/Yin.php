@@ -59,8 +59,8 @@ class Yin extends CI_Controller {
         if(!isset($id) || $id == '') {
             $user_id = $this->session->userdata ('user_details')[0]->users_id;
         }
-        $data["user_id"] = $user_id;
-        $data["session"] = $_SESSION;
+        //$data["user_id"] = $user_id;
+        //$data["session"] = $_SESSION;
         $data["ok"] = 0;
         if ($user_id == $_SESSION["pixels"]["user_id"] && isset($_SESSION["pixels"]["pixel"][$date]))
         {
@@ -107,6 +107,52 @@ class Yin extends CI_Controller {
             print_r($data);
             echo "</pre>";
         */
+    }
+
+    public function changeEncryption(){
+
+        $data["result"] = $this->Yin_model->changeEncryption();
+        echo "<pre>";
+        print_r($data);
+        echo "</pre>";
+
+    }
+
+    public function encryptionTypes() {
+        /*$plaintext = 'Testing OpenSSL Functions';
+        $methods = openssl_get_cipher_methods();
+        //$clefSecrete = 'flight';
+        echo '<pre>';
+        foreach ($methods as $method) {
+            $ivlen = openssl_cipher_iv_length($method);
+            $clefSecrete = openssl_random_pseudo_bytes($ivlen);
+            $iv = openssl_random_pseudo_bytes($ivlen);
+
+            $encrypted = openssl_encrypt($plaintext, $method, $clefSecrete, OPENSSL_RAW_DATA, $iv);
+            $decrypted = openssl_decrypt($encrypted, $method, $clefSecrete, OPENSSL_RAW_DATA, $iv);
+            echo 'plaintext='.$plaintext. "\n";
+            echo 'cipher='.$method. "\n";
+            echo 'encrypted to: '.$encrypted. "\n";
+            echo 'decrypted to: '.$decrypted. "\n\n";
+        }
+        echo '</pre>';*/
+
+       /* $plaintext = 'Suresh';
+
+        $cipher = "AES-128-CBC";
+        $ivlen = openssl_cipher_iv_length($cipher);
+        $key = openssl_random_pseudo_bytes($ivlen);
+        $iv = openssl_random_pseudo_bytes($ivlen);
+        $encrypted = openssl_encrypt($plaintext, $cipher, $key, OPENSSL_RAW_DATA, $iv );
+        $decryped = openssl_decrypt($encrypted, $cipher, $key, OPENSSL_RAW_DATA, $iv);
+
+        echo "Plain Text: ".$plaintext."<br/>";
+        echo "Key: ".$key."<br/>";
+        echo "Cipher: ".$cipher."<br/>";
+        echo "IV LEN: ".$ivlen."<br/>";
+        echo "IV: ".$iv."<br/>";
+        echo "Encrypted: ".$encrypted."<br/>";
+        echo "Decrypted: ".$decryped."<br/>";*/
     }
 
 }

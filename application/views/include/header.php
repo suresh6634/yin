@@ -47,7 +47,7 @@
         <div class="wrapper">
 
           <header class="main-header">
-            <a href="<?php echo base_url(); ?>" class="logo">
+            <a href="<?php echo base_url(); ?>" class="logo pl-0">
              <?php $logo =  (setting_all('logo'))?setting_all('logo'):'logo.png'; ?>
               <!-- mini logo for sidebar mini 50x50 pixels -->
               <span class="logo-mini"><img src="<?php echo base_url().'assets/images/'.$logo; ?>" id="logo"></span>

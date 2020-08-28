@@ -101,3 +101,5 @@ defined('SMTP_PASSWORD')       OR define('SMTP_PASSWORD', '');//password
 **/
 
 defined('SALTKEY')          OR define('SALTKEY', '11bf909489080345aa98349315be9f3f'); //user name
+
+defined('CIPHERMETHOD')          OR define('CIPHERMETHOD', 'AES-256-OFB'); //user name

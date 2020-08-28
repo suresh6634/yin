@@ -351,6 +351,43 @@
 		return( $qDecoded );
 	}
 
+	function encryptItSSL( $q ) {
+        $cipher = "AES-256-OFB";
+        $saltkey = "11bf909489080345aa98349315be9f3f";
+        $ivlen = openssl_cipher_iv_length($cipher);
+        $iv = openssl_random_pseudo_bytes($ivlen);
+        $encryptedText = openssl_encrypt($q, $cipher, $saltkey, null, $iv );
+        return($encryptedText);
+	}
+
+	function decryptItSSL( $q ) {
+        $cipher = "AES-256-OFB";
+        $saltkey = "11bf909489080345aa98349315be9f3f";
+        $ivlen = openssl_cipher_iv_length($cipher);
+        $iv = openssl_random_pseudo_bytes($ivlen);
+        $decryptedText = openssl_decrypt($q, $cipher, $saltkey, null, $iv);
+        return($decryptedText);
+	}
+
+	function encrypt_decrypt($action, $string)
+	{
+		$output = false;
+		$encrypt_method = "AES-256-CBC";
+		$secret_key = '11bf909489080345aa98349315be9f3f';
+		$secret_iv = 'ABC';
+		// hash
+		$key = hash('sha256', $secret_key);
+		// iv - encrypt method AES-256-CBC expects 16 bytes
+		$iv = substr(hash('sha256', $secret_iv), 0, 16);
+		if ( $action == 'encrypt' ) {
+			$output = openssl_encrypt($string, $encrypt_method, $key, 0, $iv);
+			$output = base64_encode($output);
+		} else if( $action == 'decrypt' ) {
+			$output = openssl_decrypt(base64_decode($string), $encrypt_method, $key, 0, $iv);
+		}
+		return $output;
+	}
+
 	function buildPixelTable ( $pixels ) {
 		//print_r($pixels);
 
