@@ -274,7 +274,7 @@
                         if ( pixel.ok == 1 ) {
                             //console.log(pixel);
                             //console.log(pixel.data.comment);
-                            thisPixel.attr("data-dayscore", pixel.data.date);
+                            thisPixel.attr("data-datepixel", pixel.data.date);
                             //$("#pixelComment").val(pixel.data.comment);
                             pixelCommentEditor.setData(pixel.data.comment);
 
