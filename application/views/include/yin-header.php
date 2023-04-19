@@ -4,7 +4,7 @@
         <!-- Required meta tags -->
         <meta charset="utf-8">
         <!-- meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" -->
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
         <!-- Bootstrap CSS -->
         <!-- link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous" -->
@@ -71,7 +71,14 @@
                 font-size:11px;
                 text-align:center;
             }
+            .user-menu {
+                display: block;
+                float: left;
+                width: 24px;
+                height: 24px;
+            }
             .navbar-nav>.user-menu .icons {
+                display: block;
                 float: left;
                 width: 24px;
                 height: 24px;
@@ -80,7 +87,10 @@
             }
             .navbar-nav>.user-menu .icons:hover {
                 background-color: #F7F7F7;
-
+            }
+            .navbar-nav>li {
+                display: block;
+                float: left;
             }
             .height55px, .dayscore-block .col-md-12 {
                 height: 55px;
@@ -351,44 +361,57 @@
     <!-- header container starts here -->
     <div class="wrapper" class="bg-white" style="width:600px;margin: 10px auto;">
         <header class="main-header">
-            <a href="<?php echo base_url(); ?>" class="logo pl-0">
-                <span class="logo-lg"><img src="<?php echo base_url().'assets/images/logo.png' ?>" id="logo" alt="YIN Logo"></span>
-            </a>
-            <!-- Header Navbar: style can be found in header.less -->
-            <nav class="navbar navbar-static-top" style="margin:0">
-                <!-- Sidebar toggle button-->
-                <div class="navbar-custom-menu">
-                    <ul class="nav navbar-nav">
-                        <!-- Control Sidebar Toggle Button -->
-                        <!-- <li>
-                          <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
-                        </li> -->
-                        <!-- User Account: style can be found in dropdown.less -->
+            <div class="container">
+                <div class="row">
+                    <div class="col-6 pl-0">
+                        <a href="<?php echo base_url(); ?>" class="logo">
+                            <span class="logo-lg"><img src="<?php echo base_url().'assets/images/logo.png' ?>" id="logo" alt="YIN Logo"></span>
+                        </a>
+                    </div>
+                    <div class="col-6 pr-0" style="text-align:right;">
+                        <!-- Header Navbar: style can be found in header.less -->
+                        <nav class="navbar navbar-static-top" style="margin:0">
+                            <!-- Sidebar toggle button-->
+                            <div class="navbar-custom-menu">
+                                <ul class="nav navbar-nav">
+                                    <!-- Control Sidebar Toggle Button -->
+                                    <!-- <li>
+                                      <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
+                                    </li> -->
+                                    <!-- User Account: style can be found in dropdown.less -->
 
-                        <li class="user user-menu">
-                            <a href="#">
-                                <?php
-                                $profile_pic =  'user.png';
-                                if(isset($this->session->userdata('user_details')[0]->profile_pic) && file_exists('assets/images/'.$this->session->userdata('user_details')[0]->profile_pic))
-                                {
-                                    $profile_pic = $this->session->userdata('user_details')[0]->profile_pic;
-                                }?>
-                                <img src="<?php echo base_url().'assets/images/'.$profile_pic;?>" class="user-image" alt="User Image" style="margin-right:0;">
-                                <!-- span class="hidden-xs"><?php echo isset($this->session->userdata('user_details')[0]->name)?$this->session->userdata('user_details')[0]->name:'';?></span -->
-                            </a>
-                            <!-- a href="#">
+                                    <li class="user user-menu">
+                                        <a href="#">
+                                            <?php
+                                            $profile_pic =  'user.png';
+                                            if(isset($this->session->userdata('user_details')[0]->profile_pic) && file_exists('assets/images/'.$this->session->userdata('user_details')[0]->profile_pic))
+                                            {
+                                                $profile_pic = $this->session->userdata('user_details')[0]->profile_pic;
+                                            }?>
+                                            <img src="<?php echo base_url().'assets/images/'.$profile_pic;?>" class="user-image" alt="User Image" style="margin-right:0;">
+                                            <!-- span class="hidden-xs"><?php echo isset($this->session->userdata('user_details')[0]->name)?$this->session->userdata('user_details')[0]->name:'';?></span -->
+                                        </a>
+                                        <!-- a href="#">
                                 <img src="<?php echo base_url().'assets/images/search.png';?>" class="icons" alt="Search">
                             </a>
                             <a href="#">
                                 <img src="<?php echo base_url().'assets/images/setting.png';?>" class="icons" alt="Setting">
                             </a -->
-                            <a href="<?php echo base_url()."user/logout"; ?>">
-                                <img src="<?php echo base_url().'assets/images/logout.png';?>" class="icons" alt="Logout">
-                            </a>
-                        </li>
-                    </ul>
+                                        <!-- a href="<?php echo base_url()."user/logout"; ?>">
+                                            <img src="<?php echo base_url().'assets/images/logout.png';?>" class="icons" alt="Logout">
+                                        </a -->
+                                    </li>
+                                    <li class="user user-menu">
+                                        <a href="<?php echo base_url()."user/logout"; ?>">
+                                            <img src="<?php echo base_url().'assets/images/logout.png';?>" class="icons" alt="Logout">
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </nav>
+                    </div>
                 </div>
-            </nav>
+            </div>
         </header>
     </div>
     <!-- header container ends here -->
